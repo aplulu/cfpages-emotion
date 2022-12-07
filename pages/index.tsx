@@ -1,6 +1,11 @@
 import {AppBar, Toolbar, Typography, Box} from "@mui/material";
+import {GetServerSideProps} from "next";
 
-export default function Home() {
+type HomeProps = {
+    data: string;
+};
+
+export default function Home(props: HomeProps) {
   return (
     <>
       <AppBar position="static">
@@ -24,7 +29,22 @@ export default function Home() {
         }}
       >
         コンテンツ
+
+        <p>
+            SSRデータ: {props.data}
+        </p>
       </Box>
     </>
   )
-}
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+
+    const props: HomeProps = {
+        data: Math.random().toString(32).substring(2),
+    };
+
+    return {
+        props,
+    };
+};
